@@ -6,6 +6,7 @@ const input = $('#inputTitulo');
 const selectTags = $('#selectTag');
 const btnAgregar = $('#btnAgregar');
 const lista = $('#listaTareas');
+const emptyState = $('#emptyState');
 
 const crearCard = (datos) => {
     const card = document.createElement('li');
@@ -44,6 +45,7 @@ lista.addEventListener('click', (e) => {
   if (!btn) return;
   const card = btn.closest('.card');
   if (card) card.remove();
+  actualizarStats();
 });
 
 //Función de tarea completada
@@ -61,6 +63,7 @@ lista.addEventListener('click', (e) => {
     btn.classList.remove('is-active-done');
     btn.textContent = '✓';
   }
+  actualizarStats();
 });
 
 // Marcar tarea como favorita
@@ -95,8 +98,8 @@ chips.forEach(chip => {
       }
 
       card.classList.toggle('is-hidden', card.dataset.tag !== filter);
-      actualizarStats();
     });
+    actualizarStats();
   });
 });
 
@@ -121,6 +124,8 @@ InputBuscar.addEventListener('input', (e) => {
 
     card.classList.toggle('is-hidden', !(matchFilter && matchSearch));
   });
+  
+  actualizarStats();
 });
 
 // función para limpiar filtro de búsqueda
@@ -129,6 +134,7 @@ btnLimpiarBuscar.addEventListener('click', (e) => {
   e.preventDefault();
   InputBuscar.value = '';
   InputBuscar.dispatchEvent(new Event('input'));
+  actualizarStats();
 });
 
 //actualizar estadisticas
@@ -145,5 +151,17 @@ const actualizarStats = () => {
   statTotal.textContent = total;
   statFavs.textContent = favs;
   statVisibles.textContent = visibles;
+  if (emptyState) {
+    emptyState.classList.toggle('is-hidden', visibles !== 0);
+  }
 };
 actualizarStats();
+
+// alerta no hay tareas 
+
+lista.addEventListener('DOMSubtreeModified', () => {
+  const cards = $$('.card', lista);
+  if (cards.length === 0) {
+    alert('No hay tareas');
+  }
+});
