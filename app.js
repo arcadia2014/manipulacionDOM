@@ -119,4 +119,3 @@ InputBuscar.addEventListener('input', (e) => {
     card.classList.toggle('is-hidden', !(matchFilter && matchSearch));
   });
 });
-
