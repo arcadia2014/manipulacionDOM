@@ -43,3 +43,20 @@ lista.addEventListener('click', (e) => {
   const card = btn.closest('.card');
   if (card) card.remove();
 });
+
+//Función de tarea completada
+lista.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-action="done"]');
+  if (!btn) return;
+  const card = btn.closest('.card');
+  if (!card) return;
+
+  const done = card.classList.toggle('is-done');
+  if (done) {
+    btn.classList.add('is-active-done');
+    btn.textContent = '✔';
+  } else {
+    btn.classList.remove('is-active-done');
+    btn.textContent = '✓';
+  }
+});
