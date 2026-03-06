@@ -36,3 +36,10 @@ btnAgregar.addEventListener('click', (e) => {
     input.focus();
 });
 
+// Función de eliminar tareas
+lista.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-action="del"]');
+  if (!btn) return;
+  const card = btn.closest('.card');
+  if (card) card.remove();
+});
