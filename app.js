@@ -60,3 +60,14 @@ lista.addEventListener('click', (e) => {
     btn.textContent = '✓';
   }
 });
+
+// Marcar tarea como favorita
+lista.addEventListener('click', (e) => {
+  const btn = e.target.closest('button[data-action="fav"]');
+  if (!btn) return;
+  const card = btn.closest('.card');
+  if (!card) return;
+
+  const favorita = card.classList.toggle('is-fav');
+  btn.textContent = favorita   ? '★' : '☆';
+});
