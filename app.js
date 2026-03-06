@@ -119,3 +119,12 @@ InputBuscar.addEventListener('input', (e) => {
     card.classList.toggle('is-hidden', !(matchFilter && matchSearch));
   });
 });
+
+// función para limpiar filtro de búsqueda
+const btnLimpiarBuscar = $('#btnLimpiarBuscar');
+btnLimpiarBuscar.addEventListener('click', (e) => {
+  e.preventDefault();
+  InputBuscar.value = '';
+  InputBuscar.dispatchEvent(new Event('input'));
+
+});
