@@ -35,6 +35,7 @@ btnAgregar.addEventListener('click', (e) => {
     lista.append(card);
     input.value = "";
     input.focus();
+    actualizarStats();
 });
 
 // Función de eliminar tareas
@@ -68,9 +69,10 @@ lista.addEventListener('click', (e) => {
   if (!btn) return;
   const card = btn.closest('.card');
   if (!card) return;
-
   const favorita = card.classList.toggle('is-fav');
-  btn.textContent = favorita   ? '★' : '☆';
+  card.dataset.fav = favorita ? '1' : '0';
+  btn.textContent = favorita ? '★' : '☆';
+  actualizarStats();
 });
 
 // función de filtrar tareas por etiqueta
@@ -93,6 +95,7 @@ chips.forEach(chip => {
       }
 
       card.classList.toggle('is-hidden', card.dataset.tag !== filter);
+      actualizarStats();
     });
   });
 });
@@ -126,5 +129,21 @@ btnLimpiarBuscar.addEventListener('click', (e) => {
   e.preventDefault();
   InputBuscar.value = '';
   InputBuscar.dispatchEvent(new Event('input'));
-
 });
+
+//actualizar estadisticas
+const statTotal = $('#statTotal');
+const statFavs = $('#statFavs');
+const statVisibles = $('#statVisibles');
+
+const actualizarStats = () => {
+  const cards = $$('.card', lista);
+  const total = cards.length;
+  const favs = cards.filter(card => card.dataset.fav === '1').length;
+  const visibles = cards.filter(card => !card.classList.contains('is-hidden')).length;
+
+  statTotal.textContent = total;
+  statFavs.textContent = favs;
+  statVisibles.textContent = visibles;
+};
+actualizarStats();
